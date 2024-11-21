@@ -1,5 +1,7 @@
 import 'package:finance_manager/widgets/finances.dart';
 import 'package:flutter/material.dart';
+//the below import is for the commented rotation code
+// import 'package:flutter/services.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 96, 59, 181),
@@ -10,7 +12,12 @@ var kDarkColorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 5, 99, 125),
 );
 void main() {
-  runApp(
+  //commented lines are for loking the app from rotating and stating in the portrait mode
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // ]).then((fn){
+    runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: kDarkColorScheme,
@@ -52,4 +59,5 @@ void main() {
       home: const Finances(),
     ),
   );
+  // });
 }
