@@ -31,6 +31,7 @@ class _FinancesState extends State<Finances> {
 
   void _addNewExpense() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(onAddExpense: _addExpense),
