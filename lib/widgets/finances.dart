@@ -28,19 +28,61 @@ class _FinancesState extends State<Finances> {
     ),
   ];
 
-  void _addNewExpense () {
-    showModalBottomSheet(context: context, builder: (ctx)=>  const NewExpense());
+  void _addNewExpense() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(onAddExpense: _addExpense),
+    );
+  }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 2),
+        content: const Text('Expense Deleted'),
+        action: SnackBarAction(
+            label: 'undo',
+            onPressed: () {
+              setState(() {
+                _registeredExpenses.insert(expenseIndex, expense);
+              });
+            }),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = const Center(
+      child: Text('No expenses found. Start adding some:)'),
+    );
+
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpenses,
+        onRemoveExpense: _removeExpense,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Financial Traker"),
         actions: [
           IconButton(
             onPressed: _addNewExpense,
-            icon:const Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
@@ -48,7 +90,7 @@ class _FinancesState extends State<Finances> {
         children: [
           const Text('the chart'),
           Expanded(
-            child: ExpensesList(expenses: _registeredExpenses),
+            child: mainContent,
           ),
         ],
       ),
