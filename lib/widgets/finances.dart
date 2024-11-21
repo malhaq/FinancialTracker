@@ -1,3 +1,4 @@
+import 'package:finance_manager/widgets/chart/chart.dart';
 import 'package:finance_manager/widgets/expenses_list/expenses_list.dart';
 import 'package:finance_manager/models/expense.dart';
 import 'package:finance_manager/widgets/new_expense.dart';
@@ -88,7 +89,7 @@ class _FinancesState extends State<Finances> {
       ),
       body: Column(
         children: [
-          const Text('the chart'),
+          Chart(expenses: _registeredExpenses),
           Expanded(
             child: mainContent,
           ),
